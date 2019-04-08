@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('../config/postgres-config');
 
 
-const Client = db.define('user', {
+const Client = db.define('client', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,

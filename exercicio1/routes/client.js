@@ -2,122 +2,84 @@ const express = require("express"),
     router = express.Router(),
     Client = require('../models/Client');
 
-let clientMock = [
-    {
-        id: 1,
-        name: "Rodrigo",        
-        last_name: "Pereira de Oliveira",
-        registration_number: "95258210050",
-        is_company: false,
-        email: "rodrigorpogo@gmail.com",    
-        cellphone: "34998074997",    
-        full_address: "Rua Interlagos, numero 1090",    
-        city: "Uberlândia",
-        province: "MG",
-        cep: "38009432",
-        created: new Date(1519900000000),
-        updated: Date
-    },
-    {
-        id: 2,
-        name: "Thiago",        
-        last_name: "Pereira de Oliveira",
-        registration_number: "99998880050",
-        is_company: false,
-        email: "thiagopoliveira@gmail.com",    
-        cellphone: "34998070000",    
-        full_address: "Rua Liguinha, numero 290",    
-        city: "Uberlândia",
-        province: "MG",
-        cep: "38222222",
-        created: new Date(1529900000000),
-        updated: new Date(1539900000000)
-    }
-]
-
-let temporaryClientList = clientMock;
-
-
-// Get All Products
-router.get("/", function (req, res) {
-    res.status(200).json(temporaryClientList);
-});
-
-// Get Product
-router.get("/:id", function (req, res) {
-    if (clientExists(req.params.id)) {
-        res.status(200).json(findProductById(req.params.id));
-    } else {
-        res.status(400).send("Product doesn't exists!!!");
-    }
-
-});
-
-// Create Product
-router.post("/", function (req, res) {
-    if (!clientExists(req.body.id)) {
-        const client = req.body;
-        client.id = temporaryClientList.length + 1;
-        temporaryClientList.push(client);
-        res.status(200).json(client);
-    } else {
-        res.status(400).send("Product already exists!!!");
+// Get All Client
+router.get("/", async (req, res) => {
+    try {
+        const client = await getClientsFromDb();
+        res.json(client);
+    } catch (e) {
+        res.status(400);
     }
 });
 
-// Edit Product
-router.put("/:id", function (req, res) {
-    if (clientExists(req.params.id)) {
-        res.status(200).json(findAndUpdate(req.params.id, req.body));
-    } else {
-        res.status(400).send("Product doesn't exists!!!");
+// Get Client
+router.get("/:id", async (req, res) => {
+    try {
+        const client = await getClientsFromDb(req.params.id);
+        client !== null ? res.json(client) : res.status(404).send(`Client doesn't exist`);
+    } catch (e) {
+        res.status(400).send(`Error: ${e}`);
     }
 });
 
-// Delete Product
-router.delete("/:id", function (req, res) {
-    if (clientExists(req.params.id)) {
-        findAndDelete(req.params.id);
-        res.status(200).send("Product was deleted!!!");
-    } else {
-        res.status(400).send("Product doesn't exists!!!");
+// Create Client
+router.post("/", async (req, res) => {
+    try {
+        const client = await createClient(req.body);
+        res.json(client)
+    } catch (e) {
+        res.status(400).send(`Error: ${e}`);
     }
 });
 
-const clientExists = (id) => {
-    return temporaryClientList.some(function (element) {
-        return element.id == id;
-    });
+// Edit Client
+router.put("/:id", async (req, res) => {
+    try {
+        const numberOfUpdatedClients = await updateClient(req.body, req.params.id);
+        (numberOfUpdatedClients !== 0) ? res.send("Client Updated") : res.send("Client was not Found")
+    } catch (e) {
+        res.status(400).send(`Error: ${e}`);
+    }
+});
+
+// Delete Client
+router.delete("/:id", async (req, res) => {
+    try {
+        const numberOfDeletions = await deleteClient(req.params.id);
+        (numberOfDeletions !== 0) ? res.send("Client was deleted!!!") : res.status(404).send("Client was not found!!!");
+    } catch (e) {
+        res.status(400).send(`Error: ${e}`);
+    }
+});
+
+const getClientsFromDb = async (clientId) => {
+    const clientList = (typeof clientId === 'undefined') ? await Client.findAll() : await Client.findByPk(clientId)
+    return clientList;
 }
 
-const findProductById = (id) => {
-    const clients = temporaryClientList.filter(function (element) {
-        return element.id == id;
-    });
-    return clients.length > 1 ? clients : clients[0];
+const createClient = async (body) => {
+    body.created = new Date();
+    const client = await Client.create(body);
+    return client;
 }
 
-const findAndUpdate = (id, obj) => {
-    let clients = {};
-
-    temporaryClientList.forEach(function (element, index) {
-        if (id == element.id) {
-            temporaryClientList[index] = obj;
-            temporaryClientList[index].id = id;
-            clients = temporaryClientList[index];
+const updateClient = async (body, client_id) => {
+    body.updated = new Date();
+    const numberOfUpdatedClients = await Client.update(body, {
+        where: {
+            id: client_id
         }
     });
-    return clients;
+    return numberOfUpdatedClients[0];
 }
 
-const findAndDelete = (id) => {
-    temporaryClientList = temporaryClientList.filter(function (element) {
-        if (id != element.id) {
-            return element;
+const deleteClient = async (clientId) => {
+    const numberOfDeletions = await Client.destroy({
+        where: {
+            id: clientId
         }
     });
+    return numberOfDeletions;
 }
-
-
 
 module.exports = router;

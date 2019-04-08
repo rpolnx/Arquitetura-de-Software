@@ -17,8 +17,44 @@ Exercício 1: criar um gerenciamento de vendas com 3 tabelas: Produtos, Vendas e
 ### Executar a query
 - Executar o arquivo SQL 'models.sql' dentro da pasta 'optional'.
 
+# Rodando o projeto
+- Em modo Development:
+```
+npm run dev
+```
 
-## Observações Gerais
+- Em modo Production:
+```
+npm run start
+```
+
+# Paths e endpoints
+
+## GET
+- / (index)
+- /client (Retorna uma lista de todos os clientes cadastrados)
+- /client/{id} (Retorna um cliente por um Id específico)
+- /product (Retorna uma lista de todos os produtos cadastrados)
+- /product/{id} (Retorna um produto por um Id específico)
+- /sale (Retorna uma lista de todas as vendas cadastradas)
+- /sale{id} (Retorna uma venda por um Id específico)
+
+## POST
+- /client (Cria um novo registro de cliente a partir de informações no corpo)
+- /product (Cria um novo registro de produto a partir de informações no corpo)
+- /sale (Cria um novo registro de venda a partir de informações no corpo)
+
+## PUT
+- /client/{id} (Edita um cliente específico a partir de informações no corpo)
+- /product/{id} (Edita um produto específico a partir de informações no corpo)
+- /sale/{id} (Edita uma venda específica a partir de informações no corpo)
+
+## DELETE
+- /client/{id} (Deleta um cliente por um Id específico)
+- /product/{id} (Deleta um produto por um Id específico)
+- /sale/{id} (Deleta uma venda por um Id específico)
+
+# Observações Gerais
 - O exercício está em dois commits:
     - O primeiro consta com um Mock
     - O segundo é conectado ao banco de dados

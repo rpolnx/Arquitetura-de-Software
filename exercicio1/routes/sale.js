@@ -1,121 +1,128 @@
-const express = require("express"),
-    router = express.Router(),
-    Sale = require('../models/Sale');
+const express = require("express");
+const router = express.Router();
+const Sale = require('../models/Sale');
+const Client = require('../models/Client');
+const Product = require('../models/Product');
 
-let salesMock = [
-    {
-        id: 1,
-        client_id: 1,
-        product_id: 1,
-        product_quantity: 2,
-        total_price: 500.9,
-        composition_identifier: "356a192b7913b04c54574d18c28d46e6395428ab",    
-        sale_time: new Date(1529900000000),    
-        deliver_time: new Date(1539900000000)
-    },
-    {
-        id: 2,
-        client_id: 1,
-        product_id: 2,
-        product_quantity: 1,
-        total_price: 300.2,
-        composition_identifier: "356a192b7913b04c54574d18c28d46e6395428ab",    
-        sale_time: new Date(1529900000000),    
-        deliver_time: new Date(1539900000000)
-    },
-    {
-        id: 3,
-        client_id: 2,
-        product_id: 2,
-        product_quantity: 10,
-        total_price: 3000.2,
-        composition_identifier: "da4b9237bacccdf19c0760cab7aec4a8359010b0",    
-        sale_time: new Date(1529900000000),    
-        deliver_time: undefined
+// Get All Sale
+router.get("/", async (req, res) => {
+    try {
+        const sale = await getSalesFromDb();
+        res.json(sale);
+    } catch (e) {
+        res.status(400);
     }
-]
-
-let temporarysalesList = salesMock;
-
-
-// Get All Sales
-router.get("/", function (req, res) {
-    res.status(200).json(temporarysalesList);
 });
 
 // Get Sale
-router.get("/:id", function (req, res) {
-    if (saleExists(req.params.id)) {
-        res.status(200).json(findSaleById(req.params.id));
-    } else {
-        res.status(400).send("Sale doesn't exists!!!");
+router.get("/:id", async (req, res) => {
+    try {
+        const sale = await getSalesFromDb(req.params.id);
+        sale !== null ? res.json(sale) : res.status(404).send(`Sale doesn't exist`);
+    } catch (e) {
+        res.status(400).send(`Error: ${e}`);
     }
-
 });
 
 // Create Sale
-router.post("/", function (req, res) {
-    if (!saleExists(req.body.id)) {
-        const sale = req.body;
-        sale.id = temporarysalesList.length + 1;
-        temporarysalesList.push(sale);
-        res.status(200).json(sale);
-    } else {
-        res.status(400).send("Sale already exists!!!");
+router.post("/", async (req, res) => {
+    try {
+        const objVerify = await verifyClientAndProduct(req.body);
+        if (!objVerify.validate) {
+            res.status(404).send(objVerify.message);
+        } else {
+            req.body.total_price = objVerify.price * req.body.product_quantity
+            const sale = await createSale(req.body);
+            res.json(sale)
+        }
+    } catch (e) {
+        res.status(400).send(`Error: ${e}`);
     }
 });
 
 // Edit Sale
-router.put("/:id", function (req, res) {
-    if (saleExists(req.params.id)) {
-        res.status(200).json(findAndUpdate(req.params.id, req.body));
-    } else {
-        res.status(400).send("Sale doesn't exists!!!");
+router.put("/:id", async (req, res) => {
+    try {
+        const numberOfUpdatedSales = await updateSale(req.body, req.params.id);
+        (numberOfUpdatedSales !== 0) ? res.send("Sale Updated") : res.send("Sale was not Found")
+    } catch (e) {
+        res.status(400).send(`Error: ${e}`);
     }
 });
 
 // Delete Sale
-router.delete("/:id", function (req, res) {
-    if (saleExists(req.params.id)) {
-        findAndDelete(req.params.id);
-        res.status(200).send("Sale was deleted!!!");
-    } else {
-        res.status(400).send("Sale doesn't exists!!!");
+router.delete("/:id", async (req, res) => {
+    try {
+        const numberOfDeletions = await deleteSale(req.params.id);
+        (numberOfDeletions !== 0) ? res.send("Sale was deleted!!!") : res.status(404).send("Sale was not found!!!");
+    } catch (e) {
+        res.status(400).send(`Error: ${e}`);
     }
 });
 
-const saleExists = (id) => {
-    return temporarysalesList.some(function (element) {
-        return element.id == id;
-    });
+const getSalesFromDb = async (saleId) => {
+    const saleList = (typeof saleId === 'undefined') ? await Sale.findAll() : await Sale.findByPk(saleId)
+    return saleList;
 }
 
-const findSaleById = (id) => {
-    const sales = temporarysalesList.filter(function (element) {
-        return element.id == id;
-    });
-    return sales.length > 1 ? sales : sales[0];
+const verifyClientAndProduct = async (body) => {
+    const client = await Client.findByPk(body.client_id);
+    let product = await Product.findByPk(body.product_id);
+    if (client === null && product === null) {
+        return { validate: false, message: "Product and client was not found" }
+    }
+    if (client == null) {
+        return { validate: false, message: "Client was not found" }
+    }
+    if (product === null) {
+        return { validate: false, message: "Product was not found" }
+    }
+    if (product.quantity < body.product_quantity) {
+        return { validate: false, message: "There are no products available" }
+    } else {
+        product.quantity -= body.product_quantity;
+        await Product.update({ quantity: product.quantity }, {
+            where: {
+                id: body.product_id
+            }
+        })
+    }
+
+    return { validate: true, price: product.price }
 }
 
-const findAndUpdate = (id, obj) => {
-    let sales = {};
+const createSale = async (body) => {
+    body.sale_time = new Date();
+    body.composition_identifier = generateHash(32);
+    const sale = await Sale.create(body);
+    return sale;
+}
 
-    temporarysalesList.forEach(function (element, index) {
-        if (id == element.id) {
-            temporarysalesList[index] = obj;
-            temporarysalesList[index].id = id;
-            sales = temporarysalesList[index];
+const updateSale = async (body, sale_id) => {
+    body.deliver_time = new Date();
+    const numberOfUpdatedSales = await Sale.update(body, {
+        where: {
+            id: sale_id
         }
     });
-    return sales;
+    return numberOfUpdatedSales[0];
 }
 
-const findAndDelete = (id) => {
-    temporarysalesList = temporarysalesList.filter(function (element) {
-        if (id != element.id) {
-            return element;
+const deleteSale = async (saleId) => {
+    const numberOfDeletions = await Sale.destroy({
+        where: {
+            id: saleId
         }
     });
+    return numberOfDeletions;
+}
+
+const generateHash = (length) => {
+    let hash = "";
+    const possible = "abcdefghijklmnopqrstuvwxyz0123456789";
+    for (var i = 0; i < length; i++)
+        hash += possible.charAt(Math.floor(Math.random() * possible.length));
+    return hash;
 }
 
 

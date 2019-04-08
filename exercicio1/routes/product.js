@@ -2,111 +2,85 @@ const express = require("express"),
     router = express.Router(),
     Product = require('../models/Product');
 
-let mockProduct = [{
-    id: 1,
-    name: "Tênis Adidas",
-    model: "B1",
-    description: "Confortável e prático",
-    quantity: 50,
-    price: 399.90,
-    created: Date(),
-    updated: undefined
-},
-{
-    id: 2,
-    name: "Tênis Adidas",
-    model: "B2",
-    description: "Confortável e prático",
-    quantity: 20,
-    price: 199.90,
-    created: Date(),
-    updated: undefined
-}]
-
-let temporaryProductList = mockProduct;
-
-// Get All Products
-router.get("/", function (req, res) {
-    res.status(200).json(temporaryProductList);
+// Get All Product
+router.get("/", async (req, res) => {
+    try {
+        const product = await getProductsFromDb();
+        res.json(product);
+    } catch (e) {
+        res.status(400);
+    }
 });
 
 // Get Product
-router.get("/:id", function (req, res) {
-    if (productExists(req.params.id)) {
-        res.status(200).json(findProductById(req.params.id));
-    } else {
-        res.status(400).send("Product doesn't exists!!!");
+router.get("/:id", async (req, res) => {
+    try {
+        const product = await getProductsFromDb(req.params.id);
+        product !== null ? res.json(product) : res.status(404).send(`Product doesn't exist`);
+    } catch (e) {
+        res.status(400).send(`Error: ${e}`);
     }
-
 });
 
 // Create Product
-router.post("/", function (req, res) {
-    if (!productExists(req.body.id)) {
-        const product = req.body;
-        product.id = temporaryProductList.length + 1;
-        temporaryProductList.push(product);
-        res.status(200).json(product);
-    } else {
-        res.status(400).send("Product already exists!!!");
+router.post("/", async (req, res) => {
+    try {
+        const product = await createProduct(req.body);
+        res.json(product)
+    } catch (e) {
+        res.status(400).send(`Error: ${e}`);
     }
 });
 
 // Edit Product
-router.put("/:id", function (req, res) {
-    if (productExists(req.params.id)) {
-        res.status(200).json(findAndUpdate(req.params.id, req.body));
-    } else {
-        res.status(400).send("Product doesn't exists!!!");
+router.put("/:id", async (req, res) => {
+    try {
+        const numberOfUpdatedProducts = await updateProduct(req.body, req.params.id);
+        (numberOfUpdatedProducts !== 0) ? res.send("Product Updated") : res.send("Product was not Found")
+    } catch (e) {
+        res.status(400).send(`Error: ${e}`);
     }
 });
 
 // Delete Product
-router.delete("/:id", function (req, res) {
-    if (productExists(req.params.id)) {
-        findAndDelete(req.params.id);
-        res.status(200).send("Product was deleted!!!");
-    } else {
-        res.status(400).send("Product doesn't exists!!!");
+router.delete("/:id", async (req, res) => {
+    try {
+        const numberOfDeletions = await deleteProduct(req.params.id);
+        (numberOfDeletions !== 0) ? res.send("Product was deleted!!!") : res.status(404).send("Product was not found!!!");
+    } catch (e) {
+        res.status(400).send(`Error: ${e}`);
     }
 });
 
-const productExists = (id) => {
-    return temporaryProductList.some(function (element) {
-        return element.id == id;
-    });
+const getProductsFromDb = async (productId) => {
+    const productList = (typeof productId === 'undefined') ? await Product.findAll() : await Product.findByPk(productId)
+    return productList;
 }
 
-const findProductById = (id) => {
-    const products = temporaryProductList.filter(function (element) {
-        return element.id == id;
-    });
-    return products.length > 1 ? products : products[0];
+const createProduct = async (body) => {
+    body.created = new Date();
+    console.log(new Date())
+    const product = await Product.create(body);
+    return product;
 }
 
-const findAndUpdate = (id, obj) => {
-    let products = {};
-
-    temporaryProductList.forEach(function (element, index) {
-        if (id == element.id) {
-            temporaryProductList[index] = obj;
-            temporaryProductList[index].id = id;
-            products = temporaryProductList[index];
+const updateProduct = async (body, product_id) => {
+    body.updated = new Date();
+    const numberOfUpdatedProducts = await Product.update(body, {
+        where: {
+            id: product_id
         }
     });
-    return products;
+    return numberOfUpdatedProducts[0];
 }
 
-const findAndDelete = (id) => {
-    temporaryProductList = temporaryProductList.filter(function (element) {
-        if (id != element.id) {
-            return element;
+const deleteProduct = async (productId) => {
+    const numberOfDeletions = await Product.destroy({
+        where: {
+            id: productId
         }
     });
-}
-
-const queryDB = async () => {
-    return await Product.findAll();
+    return numberOfDeletions;
 }
 
 module.exports = router;
