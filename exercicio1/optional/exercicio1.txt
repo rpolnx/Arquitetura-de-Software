@@ -1,0 +1,7 @@
+Criar microsserviço
+Tabela Cliente
+Tabela Produto
+
+Entidade Venda
+
+Gerar um microsserviço que traz o que foi vendido
