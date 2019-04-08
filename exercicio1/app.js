@@ -5,7 +5,9 @@ const express = require('express'),
 
 // Connection on Postgres
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+app.set('view engine', 'html');
+app.use(express.static('public'));
 
 // -- Routes
 app.use("/", require('./routes/index'));

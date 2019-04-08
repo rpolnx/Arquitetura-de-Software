@@ -37,7 +37,7 @@ npm run start
 - /product (Retorna uma lista de todos os produtos cadastrados)
 - /product/{id} (Retorna um produto por um Id específico)
 - /sale (Retorna uma lista de todas as vendas cadastradas)
-- /sale{id} (Retorna uma venda por um Id específico)
+- /sale/{id} (Retorna uma venda por um Id específico)
 
 ## POST
 - /client (Cria um novo registro de cliente a partir de informações no corpo)

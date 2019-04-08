@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Arquitetura de Software</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <h1 class="display-2 text-center">Exercício 1: controle de estoque</h1>
+        <a href="https://github.com/rodrigorpo/Arquitetura-de-Software/tree/master/exercicio1">Link no Github</a>
+        <h1 class="display-4"></h1>
+        <p class="lead">
+            <h1 id="paths-e-endpoints">Paths e endpoints</h1>
+            <h2 id="get">GET</h2>
+            <ul>
+                <li>/ (index)</li>
+                <li>/client (Retorna uma lista de todos os clientes cadastrados)</li>
+                <li>/client/{id} (Retorna um cliente por um Id específico)</li>
+                <li>/product (Retorna uma lista de todos os produtos cadastrados)</li>
+                <li>/product/{id} (Retorna um produto por um Id específico)</li>
+                <li>/sale (Retorna uma lista de todas as vendas cadastradas)</li>
+                <li>/sale/{id} (Retorna uma venda por um Id específico)</li>
+            </ul>
+            <h2 id="post">POST</h2>
+            <ul>
+                <li>/client (Cria um novo registro de cliente a partir de informações no corpo)</li>
+                <li>/product (Cria um novo registro de produto a partir de informações no corpo)</li>
+                <li>/sale (Cria um novo registro de venda a partir de informações no corpo)</li>
+            </ul>
+            <h2 id="put">PUT</h2>
+            <ul>
+                <li>/client/{id} (Edita um cliente específico a partir de informações no corpo)</li>
+                <li>/product/{id} (Edita um produto específico a partir de informações no corpo)</li>
+                <li>/sale/{id} (Edita uma venda específica a partir de informações no corpo)</li>
+            </ul>
+            <h2 id="delete">DELETE</h2>
+            <ul>
+                <li>/client/{id} (Deleta um cliente por um Id específico)</li>
+                <li>/product/{id} (Deleta um produto por um Id específico)</li>
+                <li>/sale/{id} (Deleta uma venda por um Id específico)</li>
+            </ul>
+        </p>
+    </div>
+</body>
+
+</html>
