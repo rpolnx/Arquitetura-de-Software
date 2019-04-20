@@ -1,0 +1,5 @@
+Criar microsserviço
+
+Tabelas a partir da foto do telegram
+
+Gerar um microsserviço que traz o que foi vendido

@@ -4,18 +4,21 @@ Exercício 1: criar um gerenciamento de vendas com 3 tabelas: Produtos, Vendas e
 # Requerimentos
 
 ## Instalar as dependências
+- Dentro da pasta do projeto ./exercicio1:
+
 ```
     npm install
 ```
 
 ## Configurar o Banco de Dados - Postgres
-- Utilizar o banco localhost ou utilizar uma instância de Docker a partir do Kitematic
+- Utilizar o banco localhost ou utilizar uma instância do banco pelo Docker. Ex: utilizar o container 9.6-alpine disponível no dockerhub.
+- No caso do Windows: esse container será emulado em um IP da VM, devendo observar qual será ele. Normalmente é o 192.168.99.100.
 
 ### Alterar o IP do banco, se preciso for
-- No arquivo 'postgres-config.js' dentro da pasta 'config', alterar o campo 'host' para o ip onde está o banco de dados.
+- No arquivo 'postgres-config.js' dentro da pasta './config', alterar o campo 'host' para o ip onde está o banco de dados.
 
 ### Executar a query
-- Executar o arquivo SQL 'models.sql' dentro da pasta 'optional'.
+- Executar o arquivo SQL 'models.sql' dentro da pasta './optional'.
 
 # Rodando o projeto
 - Em modo Development:
