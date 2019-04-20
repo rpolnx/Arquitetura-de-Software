@@ -30,7 +30,7 @@ npm run start
 
 # Relacionamento das tabelas
 
-![Modelo Relacional](https://github.com/rodrigorpo/Arquitetura-de-Software/tree/master/exercicio2/optional/relacionamento-tabelas-ex-2.jpg)
+![Modelo Relacional](https://github.com/rodrigorpo/Arquitetura-de-Software/blob/master/exercicio2/optional/relacionamento-tabelas-ex-2.jpg?raw=true)
 
 
 # Paths e endpoints

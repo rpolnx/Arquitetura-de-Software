@@ -23,8 +23,7 @@ const Compra = db.define('tb_compras', {
         allowNull: false,
         references: {
             model: Produto,
-            key: 'id_produto',
-            allow
+            key: 'id_produto'
         }
     },
     id_categoria: {
@@ -32,8 +31,7 @@ const Compra = db.define('tb_compras', {
         allowNull: false,
         references: {
             model: Categoria,
-            key: 'id_categoria',
-            allow
+            key: 'id_categoria'
         }
     },
     dataCompra: {

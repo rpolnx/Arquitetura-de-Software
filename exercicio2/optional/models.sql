@@ -72,7 +72,7 @@ alter table ex2."tb_produtos"
 alter table ex2."tb_produtos"
 	add constraint fornecedores_produtos_fk
 		foreign key (id_fornecedor) references ex2.tb_fornecedores;
-	
+
 alter table ex2."tb_produtos"
 	add constraint categorias_produtos_fk
 		foreign key (id_categoria) references ex2.tb_categorias;
@@ -86,9 +86,9 @@ create table ex2."tb_compras"
 	id_fornecedor int not null,
 	id_produto int not null,
 	id_categoria int not null,
-	dataCompra: date,
-	valorTotal: numeric,
-	quantidade: integer,
+	dataCompra date,
+	valorTotal numeric,
+	quantidade integer,
 	fg_ativo integer
 );
 
@@ -119,9 +119,9 @@ create table ex2."tb_vendedores"
 	id_vendedor serial,
 	cpf varchar(11),
 	nome varchar(35),
-	carteiraTrabalho: varchar(20),
-	telefone: varchar(15),
-	dataAdmissao: date,
+	carteiraTrabalho varchar(20),
+	telefone varchar(15),
+	dataAdmissao date,
 	fg_ativo integer
 );
 
@@ -141,9 +141,9 @@ create table ex2."tb_vendas"
 	id_vendedor integer,
 	id_categoria integer,
 	id_produto integer,
-	dataVenda: date,
-	valorTotal: numeric,
-	quantidade: integer,
+	dataVenda date,
+	valorTotal numeric,
+	quantidade integer,
 	fg_ativo integer
 );
 
