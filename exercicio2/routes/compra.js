@@ -82,7 +82,7 @@ const verifyFornecedorAndProduto = async (body) => {
     if (categoria === null) {
         return { validate: false, message: "Categoria was not found" }
     } else {
-        produto.quantidade += body.quantidade;
+        produto.quantidade += parseInt(body.quantidade);
         await Produto.update({ quantidade: produto.quantidade }, {
             where: {
                 id_produto: body.id_produto

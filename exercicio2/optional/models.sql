@@ -10,8 +10,8 @@ create schema ex2;
 create table ex2."tb_categorias"
 (
 	id_categoria serial,
-	tituloCategoria varchar(30),
-	descricaoCategoria varchar(50),
+	titulo_categoria varchar(30),
+	descricao_categoria varchar(50),
 	fg_ativo integer
 );
 
@@ -29,7 +29,7 @@ create table ex2."tb_fornecedores"
 (
 	id_fornecedor serial,
 	cnpj varchar(14) unique,
-	razaoSocial varchar(50),
+	razao_social varchar(50),
 	telefone varchar(15),
 	endereco varchar(50),
 	contato varchar(50),
@@ -54,11 +54,11 @@ create table ex2."tb_produtos"
 	id_produto serial,
 	id_fornecedor integer,
 	id_categoria integer,
-	nomeProduto varchar(30),
-	descricaoProduto varchar(100),
-	valorUnitario numeric,
+	nome_produto varchar(30),
+	descricao_produto varchar(100),
+	valor_unitario numeric,
 	quantidade integer,
-	quantidadeMinima integer,
+	quantidade_minima integer,
 	fg_ativo integer
 );
 
@@ -86,8 +86,8 @@ create table ex2."tb_compras"
 	id_fornecedor int not null,
 	id_produto int not null,
 	id_categoria int not null,
-	dataCompra date,
-	valorTotal numeric,
+	data_compra date,
+	valor_total numeric,
 	quantidade integer,
 	fg_ativo integer
 );
@@ -117,11 +117,11 @@ alter table ex2."tb_compras"
 create table ex2."tb_vendedores"
 (
 	id_vendedor serial,
-	cpf varchar(11),
+	cpf varchar(11) unique,
 	nome varchar(35),
-	carteiraTrabalho varchar(20),
+	carteira_trabalho varchar(20),
 	telefone varchar(15),
-	dataAdmissao date,
+	data_admissao date,
 	fg_ativo integer
 );
 
@@ -132,6 +132,9 @@ alter table ex2."tb_vendedores"
 	add constraint vendedor_pk
 		primary key (id_vendedor);
 
+create unique index cpf_uindex
+	on ex2."tb_vendedores" (cpf);
+
 
 -- tb_vendas
 
@@ -141,8 +144,8 @@ create table ex2."tb_vendas"
 	id_vendedor integer,
 	id_categoria integer,
 	id_produto integer,
-	dataVenda date,
-	valorTotal numeric,
+	data_venda date,
+	valor_total numeric,
 	quantidade integer,
 	fg_ativo integer
 );

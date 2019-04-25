@@ -67,13 +67,13 @@ const getVendasFromDb = async (vendaId) => {
 }
 
 const verifyVendedorAndProduto = async (body) => {
-    const fornecedor = await Vendedor.findByPk(body.id_fornecedor);
+    const vendedor = await Vendedor.findByPk(body.id_vendedor);
     const categoria = await Categoria.findByPk(body.id_categoria);
     let produto = await Produto.findByPk(body.id_produto);
-    if (fornecedor === null && produto === null && categoria === null) {
-        return { validate: false, message: "Produto and fornecedor and categoria was not found" }
+    if (vendedor === null && produto === null && categoria === null) {
+        return { validate: false, message: "Produto and vendedor and categoria was not found" }
     }
-    if (fornecedor == null) {
+    if (vendedor == null) {
         return { validate: false, message: "Vendedor was not found" }
     }
     if (produto === null) {
@@ -88,7 +88,7 @@ const verifyVendedorAndProduto = async (body) => {
     if (produto.quantidade < body.quantidade) {
         return { validate: false, message: `Não há tantos produtos em estoque. Quantidade restante: ${produto.quantidade}.` }
     } else {
-        produto.quantidade -= body.quantidade;
+        produto.quantidade -= parseInt(body.quantidade);
         await Produto.update({ quantidade: produto.quantidade }, {
             where: {
                 id_produto: body.id_produto

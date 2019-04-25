@@ -63,7 +63,7 @@ const createCategoria = async (body) => {
 }
 
 const updateCategoria = async (body, categoria_id) => {
-    const numberOfUpdatedcategorias = await categoria.update(body, {
+    const numberOfUpdatedcategorias = await Categoria.update(body, {
         where: {
             id_categoria: categoria_id
         }
@@ -72,7 +72,7 @@ const updateCategoria = async (body, categoria_id) => {
 }
 
 const deleteCategoria = async (categoriaId) => {
-    const numberOfDeletions = await categoria.destroy({
+    const numberOfDeletions = await Categoria.destroy({
         where: {
             id_categoria: categoriaId
         }
