@@ -58,6 +58,7 @@ const getSellerFromDB = async (sellerId) => {
 }
 
 const createSeller = async (body) => {
+    body.admission = new Date();
     const seller = await Seller.create(body);
     return seller;
 }

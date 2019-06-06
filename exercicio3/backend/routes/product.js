@@ -1,102 +1,102 @@
 const express = require("express");
 const router = express.Router();
-const Produto = require('../models/Produto');
-const Fornecedor = require('../models/Fornecedor');
-const Categoria = require('../models/Categoria');
+const Product = require('../models/Product');
+const Supplier = require('../models/Supplier');
+const Category = require('../models/Category');
 
-// Get All Produto
+// Get All Product
 router.get("/", async (req, res) => {
     try {
-        const produto = await getProdutosFromDb();
-        res.json(produto);
+        const product = await getProductsFromDb();
+        res.json(product);
     } catch (e) {
         res.status(400);
     }
 });
 
-// Get Produto
+// Get Product
 router.get("/:id", async (req, res) => {
     try {
-        const produto = await getProdutosFromDb(req.params.id);
-        produto !== null ? res.json(produto) : res.status(404).send(`Produto doesn't exist`);
+        const product = await getProductsFromDb(req.params.id);
+        product !== null ? res.json(product) : res.status(404).send(`Product doesn't exist`);
     } catch (e) {
         res.status(400).send(`Error: ${e}`);
     }
 });
 
-// Create Produto
+// Create Product
 router.post("/", async (req, res) => {
     try {
-        const objVerify = await verifyFornecedorAndCategoria(req.body);
+        const objVerify = await verifySupplierAndCategory(req.body);
         if (!objVerify.validate) {
             res.status(404).send(objVerify.message);
         } else {
-            const produto = await createProduto(req.body);
-            res.json(produto)
+            const product = await createProduct(req.body);
+            res.json(product)
         }
     } catch (e) {
         res.status(400).send(`Error: ${e}`);
     }
 });
 
-// Edit Produto
+// Edit Product
 router.put("/:id", async (req, res) => {
     try {
-        const numberOfUpdatedProdutos = await updateProduto(req.body, req.params.id);
-        (numberOfUpdatedProdutos !== 0) ? res.send("Produto Updated") : res.send("Produto was not Found")
+        const numberOfUpdatedProducts = await updateProduct(req.body, req.params.id);
+        (numberOfUpdatedProducts !== 0) ? res.send("Product Updated") : res.send("Product was not Found")
     } catch (e) {
         res.status(400).send(`Error: ${e}`);
     }
 });
 
-// Delete Produto
+// Delete Product
 router.delete("/:id", async (req, res) => {
     try {
-        const numberOfDeletions = await deleteProduto(req.params.id);
-        (numberOfDeletions !== 0) ? res.send("Produto was deleted!!!") : res.status(404).send("Produto was not found!!!");
+        const numberOfDeletions = await deleteProduct(req.params.id);
+        (numberOfDeletions !== 0) ? res.send("Product was deleted!!!") : res.status(404).send("Product was not found!!!");
     } catch (e) {
         res.status(400).send(`Error: ${e}`);
     }
 });
 
-const getProdutosFromDb = async (produtoId) => {
-    const produtoList = (typeof produtoId === 'undefined') ? await Produto.findAll() : await Produto.findByPk(produtoId)
-    return produtoList;
+const getProductsFromDb = async (productId) => {
+    const productList = (typeof productId === 'undefined') ? await Product.findAll() : await Product.findByPk(productId)
+    return productList;
 }
 
-const verifyFornecedorAndCategoria = async (body) => {
-    const fornecedor = await Fornecedor.findByPk(body.id_fornecedor);
-    let categoria = await Categoria.findByPk(body.id_categoria);
-    if (fornecedor === null && categoria === null) {
-        return { validate: false, message: "Categoria and Fornecedor was not found" }
+const verifySupplierAndCategory = async (body) => {
+    const supplier = await Supplier.findByPk(body.supplier);
+    let category = await Category.findByPk(body.category);
+    if (supplier === null && category === null) {
+        return { validate: false, message: "Category and Supplier was not found" }
     }
-    if (fornecedor == null) {
-        return { validate: false, message: "Fornecedor was not found" }
+    if (supplier == null) {
+        return { validate: false, message: "Supplier was not found" }
     }
-    if (categoria === null) {
-        return { validate: false, message: "Categoria was not found" }
+    if (category === null) {
+        return { validate: false, message: "Category was not found" }
     }
-    return { validate: true, price: categoria.price }
+    return { validate: true, price: category.price }
 }
 
-const createProduto = async (body) => {
-    const produto = await Produto.create(body);
-    return produto;
+const createProduct = async (body) => {
+    const product = await Product.create(body);
+    return product;
 }
 
-const updateProduto = async (body, produto_id) => {
-    const numberOfUpdatedProdutos = await Produto.update(body, {
+const updateProduct = async (body, productId) => {
+    const numberOfUpdatedProducts = await Product.update(body, {
         where: {
-            id_produto: produto_id
+            id: productId
         }
     });
-    return numberOfUpdatedProdutos[0];
+    return numberOfUpdatedProducts[0];
 }
 
-const deleteProduto = async (produtoId) => {
-    const numberOfDeletions = await Produto.destroy({
+const deleteProduct = async (productId) => {
+    const numberOfDeletions = await Product.destroy({
         where: {
-            id_produto: produtoId
+            id: productId
         }
     });
     return numberOfDeletions;

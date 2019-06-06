@@ -3,7 +3,7 @@ const express = require("express"),
 
 // Show all campgrounds
 router.get("/", function (req, res) {
-    res.render("index")
+    res.status(200).send("OK!");
 });
 
 module.exports = router;

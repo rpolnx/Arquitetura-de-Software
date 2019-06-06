@@ -23,6 +23,7 @@ create table ex3."suppliers"
 (
 	id serial primary key,
 	cnpj varchar(14) unique,
+	name varchar(40),
 	social_reason varchar(50),
 	telephone varchar(15),
 	address varchar(50),

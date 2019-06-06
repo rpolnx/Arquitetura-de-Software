@@ -32,7 +32,7 @@ router.post("/", async (req, res) => {
         if (!objVerify.validate) {
             res.status(404).send(objVerify.message);
         } else {
-            req.body.totalValue = objVerify.price * req.body.quantity
+            req.body.total_value = objVerify.price * req.body.quantity
             const purchase = await createPurchase(req.body);
             res.json(purchase);
         }
@@ -44,8 +44,8 @@ router.post("/", async (req, res) => {
 // Edit Purchase
 router.put("/:id", async (req, res) => {
     try {
-        const numberOfUpdatedCompras = await updateCompra(req.body, req.params.id);
-        (numberOfUpdatedCompras !== 0) ? res.send("Purchase Updated") : res.send("Purchase was not Found")
+        const numberOfUpdatedSales = await updatePurchase(req.body, req.params.id);
+        (numberOfUpdatedSales !== 0) ? res.send("Purchase Updated") : res.send("Purchase was not Found")
     } catch (e) {
         res.status(400).send(`Error: ${e}`);
     }
@@ -54,7 +54,7 @@ router.put("/:id", async (req, res) => {
 // Delete Purchase
 router.delete("/:id", async (req, res) => {
     try {
-        const numberOfDeletions = await deleteCompra(req.params.id);
+        const numberOfDeletions = await deletePurchase(req.params.id);
         (numberOfDeletions !== 0) ? res.send("Purchase was deleted!!!") : res.status(404).send("Purchase was not found!!!");
     } catch (e) {
         res.status(400).send(`Error: ${e}`);
@@ -93,7 +93,7 @@ const verifySupplierAndProduct = async (body) => {
 }
 
 const createPurchase = async (body) => {
-    body.dataCompra = new Date();
+    body.purchase_time = new Date();
     const purchase = await Purchase.create(body);
     return purchase;
 }

@@ -8,6 +8,9 @@ const Suppliers = db.define('suppliers', {
         primaryKey: true,
         autoIncrement: true
     },
+    name: {
+        type: Sequelize.STRING(40)
+    },
     cnpj: {
         type: Sequelize.STRING(14)
     },

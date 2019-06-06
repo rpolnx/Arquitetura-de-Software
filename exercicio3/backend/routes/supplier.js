@@ -36,7 +36,7 @@ router.post("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
     try {
         const numberOfUpdatedSuppliers = await updateSupplier(req.body, req.params.id);
-        (numberOfUpdatedSupplier !== 0) ? res.send("Supplier Updated") : res.send("Supplier was not Found")
+        (numberOfUpdatedSuppliers !== 0) ? res.send("Supplier Updated") : res.send("Supplier was not Found")
     } catch (e) {
         res.status(400).send(`Error: ${e}`);
     }
