@@ -1,9 +1,8 @@
 const express = require("express"),
     router = express.Router();
 
-// Show all campgrounds
+// Show all default
 router.get("/", function (req, res) {
-    res.status(200).send("OK!");
 });
 
 module.exports = router;

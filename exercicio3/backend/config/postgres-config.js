@@ -12,7 +12,7 @@ module.exports = new Sequelize("asa", "rodrigo", "asapass", {
         updatedAt: false
     },
     pool: {
-        max: 10,
+        max: 5,
         idle: 15000,
         acquire: 60000
     }
