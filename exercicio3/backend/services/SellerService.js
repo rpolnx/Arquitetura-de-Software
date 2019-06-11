@@ -1,4 +1,4 @@
-const Seller = require('../models/Seller');
+const Seller = require('../models/persistance/Seller');
 
 class SellerService {
     async getSellerFromDB(sellerId) {

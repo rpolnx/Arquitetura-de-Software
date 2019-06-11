@@ -1,7 +1,7 @@
-const Purchase = require('../models/Purchase');
-const Supplier = require('../models/Supplier');
-const Product = require('../models/Product');
-const Category = require('../models/Category');
+const Purchase = require('../models/persistance/Purchase');
+const Supplier = require('../models/persistance/Supplier');
+const Product = require('../models/persistance/Product');
+const Category = require('../models/persistance/Category');
 
 class PurchaseService {
     async getPurchasesFromDb(purchaseId) {

@@ -1,4 +1,4 @@
-const Category = require('../models/Category');
+const Category = require('../models/persistance/Category');
 
 class CategoryService {
     async getCategoriesFromDB(categoryId) {

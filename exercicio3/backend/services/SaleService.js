@@ -1,7 +1,7 @@
-const Sale = require('../models/Sale');
-const Seller = require('../models/Seller');
-const Product = require('../models/Product');
-const Category = require('../models/Category');
+const Sale = require('../models/persistance/Sale');
+const Seller = require('../models/persistance/Seller');
+const Product = require('../models/persistance/Product');
+const Category = require('../models/persistance/Category');
 
 class SaleService {
     async getSalesFromDb(saleId) {

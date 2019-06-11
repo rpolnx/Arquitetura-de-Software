@@ -1,20 +1,60 @@
-# Arquitetura-de-Software
-Repositório da Disciplina 'Arquitetura de Software' cursada em 2019/1.
-- Os exercícios serão separadas por pasta, onde cada pasta é independente da outra
+# Software Architecture
+Third Exercise: creates an architecture based on Microservices with Frontend using Boostrap and Backend using Docker and ORM.
 
-## Requerimentos
-### Instalar o NodeJS.
-- Windows:
-    - Baixar o [NodeJS](https://nodejs.org/en/download/) e instalar.
-    
-- Ubuntu:
+# Requirements
+
+## Install dependencys
 ```
-    sudo apt-get install node
+    npm install yarn -g
+    yarn install
 ```
 
-### Como testar.
-- Instalar o kitematic ou rodar as instâncias a partir do docker
+## Setup
+- Configure Docker on a VM or local (Unix based Systems)
 
-## Observações Gerais
-- Eu utilizo o banco de dados através do docker virtualizada, então meu IP de acesso para o banco costuma ser um criado pela VM do docker. Normalmente é: 192.168.99.100
-- Caso estiver no linux, o docker será emulado dentro do próprio SO, então você poderá utilizar o localhost (127.0.0.1)
+### Database
+- On 'postgres-config.js' file inside the folder 'config', modify the attribute 'host' to where your postgres database is.
+- Execute the SQL file 'models.sql' inside the folder 'optional'.
+
+
+# Running project
+- Development mode:
+```
+npm run dev
+```
+
+- Production mode (will be upgraded):
+```
+npm run start
+```
+
+# Table Relationship 
+
+![Relational Model Based](https://github.com/rodrigorpo/Arquitetura-de-Software/blob/master/exercicio2/optional/relacionamento-tabelas-ex-2.jpg?raw=true)
+
+
+# Paths and endpoints
+
+## Types
+- Category
+- Product
+- Purchase
+- Sale
+- Seller
+- Supplier
+- User
+
+
+## GET
+- / (index)
+- /{$type$} (Returns all of a type)
+- /{$type$}/{id} (Returns a type by Id)
+
+## POST
+- /{$type$} (Creates a type based on requisition Body with validations)
+
+## PUT
+- /{$type$}/{id} (Edits a type based on an Id and requisition Body with validations)
+
+## DELETE
+- /{$type$}/{id} (Delete a type based on an Id and requisition Body with validations)

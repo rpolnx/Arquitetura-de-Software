@@ -1,6 +1,6 @@
-const Product = require('../models/Product');
-const Supplier = require('../models/Supplier');
-const Category = require('../models/Category');
+const Product = require('../models/persistance/Product');
+const Supplier = require('../models/persistance/Supplier');
+const Category = require('../models/persistance/Category');
 
 class ProductService {
     async getProductsFromDb(productId) {

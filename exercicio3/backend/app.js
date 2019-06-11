@@ -22,6 +22,7 @@ app.use("/supplier", require('./routes/SupplierController'));
 app.use("/product", require('./routes/ProductController'));
 app.use("/sale", require('./routes/SaleController'));
 app.use("/seller", require('./routes/SellerController'));
+app.use("/user", require('./routes/UserController'));
 
 app.listen(process.env.PORT, function () {
     console.log("Application started!");

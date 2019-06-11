@@ -1,28 +1,20 @@
 const Sequelize = require('sequelize');
-const db = require('../config/postgres-config');
+const db = require('../../config/postgres-config');
 const Category = require('./Category');
 const Product = require('./Product');
-const Supplier = require('./Supplier');
+const Seller = require('./Seller');
 
-const Purchase = db.define('purchases', {
+const Sale = db.define('sales', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    supplier: {
+    seller: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-            model: Supplier,
-            key: 'id'
-        }
-    },
-    product: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-            model: Product,
+            model: Seller,
             key: 'id'
         }
     },
@@ -34,7 +26,15 @@ const Purchase = db.define('purchases', {
             key: 'id'
         }
     },
-    purchase_time: {
+    product: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+            model: Product,
+            key: 'id'
+        }
+    },
+    sale_time: {
         type: Sequelize.DATE
     },
     total_value: {
@@ -45,4 +45,4 @@ const Purchase = db.define('purchases', {
     }
 });
 
-module.exports = Purchase;
+module.exports = Sale;

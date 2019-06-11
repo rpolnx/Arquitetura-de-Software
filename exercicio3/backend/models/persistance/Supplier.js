@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const db = require('../config/postgres-config');
+const db = require('../../config/postgres-config');
 
 
 const Suppliers = db.define('suppliers', {
