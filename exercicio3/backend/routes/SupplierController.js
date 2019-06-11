@@ -1,11 +1,11 @@
-const express = require("express"),
-    router = express.Router(),
-    Supplier = require('../models/Supplier');
+const express = require("express");
+const router = express.Router();
+const supplierService = require('../services/SupplierService');
 
 // Get All Supplier
 router.get("/", async (req, res) => {
     try {
-        const supplier = await getSupplierFromDB();
+        const supplier = await supplierService.getSupplierFromDB();
         res.json(supplier);
     } catch (e) {
         res.status(400);
@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
 // Get Supplier
 router.get("/:id", async (req, res) => {
     try {
-        const supplier = await getSupplierFromDB(req.params.id);
+        const supplier = await supplierService.getSupplierFromDB(req.params.id);
         supplier !== null ? res.json(supplier) : res.status(404).send(`Supplier doesn't exist`);
     } catch (e) {
         res.status(400).send(`Error: ${e}`);
@@ -25,7 +25,7 @@ router.get("/:id", async (req, res) => {
 // Create Supplier
 router.post("/", async (req, res) => {
     try {
-        const supplier = await createSupplier(req.body);
+        const supplier = await supplierService.createSupplier(req.body);
         res.json(supplier)
     } catch (e) {
         res.status(400).send(`Error: ${e}`);
@@ -35,7 +35,7 @@ router.post("/", async (req, res) => {
 // Edit supplier
 router.put("/:id", async (req, res) => {
     try {
-        const numberOfUpdatedSuppliers = await updateSupplier(req.body, req.params.id);
+        const numberOfUpdatedSuppliers = await supplierService.updateSupplier(req.body, req.params.id);
         (numberOfUpdatedSuppliers !== 0) ? res.send("Supplier Updated") : res.send("Supplier was not Found")
     } catch (e) {
         res.status(400).send(`Error: ${e}`);
@@ -45,39 +45,11 @@ router.put("/:id", async (req, res) => {
 // Delete supplier
 router.delete("/:id", async (req, res) => {
     try {
-        const numberOfDeletions = await deleteSupplier(req.params.id);
+        const numberOfDeletions = await supplierService.deleteSupplier(req.params.id);
         (numberOfDeletions !== 0) ? res.send("Supplier was deleted!!!") : res.status(404).send("Supplier was not found!!!");
     } catch (e) {
         res.status(400).send(`Error: ${e}`);
     }
 });
-
-const getSupplierFromDB = async (supplierId) => {
-    const supplierList = (typeof supplierId === 'undefined') ? await Supplier.findAll() : await Supplier.findByPk(supplierId)
-    return supplierList;
-}
-
-const createSupplier = async (body) => {
-    const supplier = await Supplier.create(body);
-    return supplier;
-}
-
-const updateSupplier = async (body, supplierId) => {
-    const numberOfUpdatedSuppliers = await Supplier.update(body, {
-        where: {
-            id: supplierId
-        }
-    });
-    return numberOfUpdatedSuppliers[0];
-}
-
-const deleteSupplier = async (supplierId) => {
-    const numberOfDeletions = await Supplier.destroy({
-        where: {
-            id: supplierId
-        }
-    });
-    return numberOfDeletions;
-}
 
 module.exports = router;

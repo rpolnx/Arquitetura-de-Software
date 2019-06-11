@@ -1,7 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../config/postgres-config');
 
-
 const Category = db.define('categories', {
     id: {
         type: Sequelize.INTEGER,

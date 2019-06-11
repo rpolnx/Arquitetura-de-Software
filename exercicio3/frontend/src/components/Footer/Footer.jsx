@@ -4,9 +4,9 @@ import "./Footer.scss";
 function Footer() {
   return (
     <>
-    <div className="footer">
-        <p className="mt-2">Developed by Rodrigo Pereira de Thiago Pereira</p>
-    </div>
+      <div className="footer">
+        <div className="margin-text">Developed by Rodrigo Pereira e Thiago Pereira</div>
+      </div>
     </>
   );
 }

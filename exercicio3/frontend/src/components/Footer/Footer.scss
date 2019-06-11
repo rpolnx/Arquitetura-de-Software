@@ -1,5 +1,11 @@
+body {
+    min-height: 100vh;
+    position: relative;
+    margin: 0;
+  }
+
 .footer {
-    position: fixed;
+    position: relative;
     height: 50px;
     background-color: #6C5B7B;
     margin-top: 10px;

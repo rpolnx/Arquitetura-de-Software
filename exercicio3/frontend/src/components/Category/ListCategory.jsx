@@ -56,15 +56,15 @@ class ListCategory extends React.Component {
         </Row>
         {this.props.categories.map((category, index) => {
           return (
-            <Row>
+            <Row onDoubleClick={console.log}>
               <Col md={{ span: 1 }} className="tasks_list">
-                <p className="Id">{category.id}</p>
+                <p className="us-none">{category.id}</p>
               </Col>
               <Col md={{ span: 3 }} className="tasks_list">
-                <p className="title">{category.title}</p>
+                <p className="us-none">{category.title}</p>
               </Col>
               <Col md={{ span: 7 }} className="tasks_list">
-                <p className="desc">{category.description}</p>
+                <p className="us-none">{category.description}</p>
               </Col>
               <Col md={{ span: 1 }}>
                 <a
@@ -74,7 +74,7 @@ class ListCategory extends React.Component {
                 >
                   <FontAwesomeIcon icon="edit" />
                 </a>
-                {"  |  "}
+                <span className="us-none">{" | "}</span>
                 <a
                   className="a"
                   href="#"

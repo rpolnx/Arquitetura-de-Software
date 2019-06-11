@@ -49,8 +49,8 @@ function Category(props) {
                 value={newCategory.title || ""}
                 onChange={e =>
                   setNewCategory({
-                    title: e.target.value,
-                    description: newCategory.description
+                    ...categories,
+                    title: e.target.value
                   })
                 }
               />
