@@ -1,5 +1,15 @@
 body {
-    min-height: 100vh;
-    position: relative;
-    margin: 0;
-  }
+    color: #73b700 !important;
+}
+
+body a, label {
+    color: #73b700 !important;
+}
+
+.fa-trash-alt{
+    color: red !important;
+}
+
+.fa-edit{
+    color: #ffd700 !important;
+}

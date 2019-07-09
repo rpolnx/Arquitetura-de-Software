@@ -2,34 +2,27 @@ import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import "./Product.scss";
 import ListProduct from "./ListProduct";
+import axios from "axios";
 
 function Product(props) {
   const [products, setProducts] = useState([]);
   const [newProduct, setNewProduct] = useState({});
 
   const loadProducts = async () => {
-    let response = await fetch("http://localhost:5000/product");
-    const productsList = await response.json();
-    setProducts(productsList);
+    let response = await axios.get("/product");
+    setProducts(response.data);
   };
 
   const createProduct = async () => {
     if (validator()) {
-      await fetch(`http://localhost:5000/product`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          name: newProduct.name,
-          description: newProduct.description,
-          value: newProduct.value,
-          quantity: newProduct.quantity,
-          minimal_quantity: newProduct.minimal_quantity,
-          supplier: newProduct.supplier,
-          category: newProduct.category
-        })
+      await axios.post("/product", {
+        name: newProduct.name,
+        description: newProduct.description,
+        value: newProduct.value,
+        quantity: newProduct.quantity,
+        minimal_quantity: newProduct.minimal_quantity,
+        supplier: newProduct.supplier,
+        category: newProduct.category
       });
       setNewProduct("");
       loadProducts();
@@ -66,13 +59,8 @@ function Product(props) {
                 value={newProduct.name || ""}
                 onChange={e =>
                   setNewProduct({
-                    name: e.target.value,
-                    description: newProduct.description,
-                    value: newProduct.value,
-                    quantity: newProduct.quantity,
-                    minimal_quantity: newProduct.minimal_quantity,
-                    supplier: newProduct.supplier,
-                    category: newProduct.category
+                    ...newProduct,
+                    name: e.target.value                    
                   })
                 }
               />
@@ -83,13 +71,8 @@ function Product(props) {
                 value={newProduct.description || ""}
                 onChange={e =>
                   setNewProduct({
-                    name: newProduct.name,
-                    description: e.target.value,
-                    value: newProduct.value,
-                    quantity: newProduct.quantity,
-                    minimal_quantity: newProduct.minimal_quantity,
-                    supplier: newProduct.supplier,
-                    category: newProduct.category
+                    ...newProduct,
+                    description: e.target.value
                   })
                 }
               />
@@ -100,13 +83,8 @@ function Product(props) {
                 value={newProduct.value || ""}
                 onChange={e =>
                   setNewProduct({
-                    name: newProduct.name,
-                    description: newProduct.description,
-                    value: e.target.value,
-                    quantity: newProduct.quantity,
-                    minimal_quantity: newProduct.minimal_quantity,
-                    supplier: newProduct.supplier,
-                    category: newProduct.category
+                    ...newProduct,
+                    value: e.target.value
                   })
                 }
               />
@@ -117,13 +95,8 @@ function Product(props) {
                 value={newProduct.quantity || ""}
                 onChange={e =>
                   setNewProduct({
-                    name: newProduct.name,
-                    description: newProduct.description,
-                    value: newProduct.value,
-                    quantity: e.target.value,
-                    minimal_quantity: newProduct.minimal_quantity,
-                    supplier: newProduct.supplier,
-                    category: newProduct.category
+                    ...newProduct,
+                    quantity: e.target.value
                   })
                 }
               />
@@ -136,13 +109,8 @@ function Product(props) {
                 value={newProduct.minimal_quantity || ""}
                 onChange={e =>
                   setNewProduct({
-                    name: newProduct.name,
-                    description: newProduct.description,
-                    value: newProduct.value,
-                    quantity: newProduct.quantity,
-                    minimal_quantity: e.target.value,
-                    supplier: newProduct.supplier,
-                    category: newProduct.category
+                    ...newProduct,
+                    minimal_quantity: e.target.value
                   })
                 }
               />
@@ -153,13 +121,8 @@ function Product(props) {
                 value={newProduct.supplier || ""}
                 onChange={e =>
                   setNewProduct({
-                    name: newProduct.name,
-                    description: newProduct.description,
-                    value: newProduct.value,
-                    quantity: newProduct.quantity,
-                    minimal_quantity: newProduct.minimal_quantity,
-                    supplier: e.target.value,
-                    category: newProduct.category
+                    ...newProduct,
+                    supplier: e.target.value
                   })
                 }
               />
@@ -170,12 +133,7 @@ function Product(props) {
                 value={newProduct.category || ""}
                 onChange={e =>
                   setNewProduct({
-                    name: newProduct.name,
-                    description: newProduct.description,
-                    value: newProduct.value,
-                    quantity: newProduct.quantity,
-                    minimal_quantity: newProduct.minimal_quantity,
-                    supplier: newProduct.supplier,
+                    ...newProduct,
                     category: e.target.value
                   })
                 }
@@ -183,9 +141,9 @@ function Product(props) {
             </Col>
             <Col md={{ span: 4 }}>
               <div className="d-flex flex-row-reverse">
-              <Button variant="dark" type="submit" className="">
-                Create Product
-              </Button>
+                <Button variant="success" type="submit" className="">
+                  Create Product
+                </Button>
               </div>
             </Col>
           </Row>

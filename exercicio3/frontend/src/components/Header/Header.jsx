@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import './Header.scss';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { NavLink, Link } from "react-router-dom";
+import "./Header.scss";
 
 const Header = () => {
   const [user, setUser] = useState("");
@@ -21,15 +22,29 @@ const Header = () => {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">
-        <Nav.Link href="/categories">Categories</Nav.Link>
-          <Nav.Link href="/products">Products</Nav.Link>
-          <Nav.Link href="/purchases">Purchases</Nav.Link>
-          <Nav.Link href="/sales">Sales</Nav.Link>
-          <Nav.Link href="/sellers">Sellers</Nav.Link>
-          <Nav.Link href="/suppliers">Suppliers</Nav.Link>          
+          <NavLink to="/categories" className="nav-link">
+            Categories
+          </NavLink>
+          <NavLink to="/products" className="nav-link">
+            Products
+          </NavLink>
+          <NavLink to="/purchases" className="nav-link">
+            Purchases
+          </NavLink>
+          <NavLink to="/sales" className="nav-link">
+            Sales
+          </NavLink>
+          <NavLink to="/sellers" className="nav-link">
+            Sellers
+          </NavLink>
+          <NavLink to="/suppliers" className="nav-link">
+            Suppliers
+          </NavLink>
         </Nav>
         <Nav>
-          <Nav.Link href="/"><FontAwesomeIcon icon="user" size="lg" /> | {user || "Login"}</Nav.Link>
+          <NavLink to="/" className="nav-link">
+            <FontAwesomeIcon icon="user" size="lg" /> | {user || "Login"}
+          </NavLink>
         </Nav>
       </Navbar.Collapse>
     </Navbar>

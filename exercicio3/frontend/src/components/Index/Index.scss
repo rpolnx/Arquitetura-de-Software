@@ -1,14 +1,17 @@
 body {
-    background: #355C7D !important;
+    background: #9e50bf !important;
     font-family: "Noto Sans HK", sans-serif;
     max-height: 1 vh - 2rem;
-    max-width: 98%;
   }
 .grey-low {
-    color: black !important;    
+    color: #882eaf !important;    
+}
+
+input[text] {
+    color: #882eaf !important; 
 }
 
 .dark-purple {
-    color: black !important;
-    
+    color: #ffd700 !important;    
 }
+

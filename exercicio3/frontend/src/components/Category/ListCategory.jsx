@@ -2,6 +2,7 @@ import React from "react";
 import { Row, Col, Form } from "react-bootstrap";
 import "./Category.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from 'axios';
 
 class ListCategory extends React.Component {
   constructor(props) {
@@ -33,9 +34,7 @@ class ListCategory extends React.Component {
     if (
       window.confirm(`Are you sure you want to delete: "${category.title}"`)
     ) {
-      await fetch(`http://localhost:5000/category/${category.id}`, {
-        method: "DELETE"
-      });
+      await axios.delete(`/category/${category.id}`);
       this.props.loadCategories();
     }
   }

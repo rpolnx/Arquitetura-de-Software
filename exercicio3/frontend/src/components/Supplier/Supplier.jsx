@@ -2,33 +2,26 @@ import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import "./Supplier.scss";
 import ListSupplier from "./ListSupplier";
+import axios from "axios";
 
 function Supplier(props) {
   const [suppliers, setSuppliers] = useState([]);
   const [newSupplier, setNewSupplier] = useState({});
 
   const loadSuppliers = async () => {
-    let response = await fetch("http://localhost:5000/supplier");
-    const suppliersList = await response.json();
-    setSuppliers(suppliersList);
+    let response = await axios.get("/supplier");
+    setSuppliers(response.data);
   };
 
   const createSupplier = async () => {
     if (validator()) {
-      await fetch(`http://localhost:5000/supplier`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          name: newSupplier.name,
-          cnpj: newSupplier.cnpj,
-          social_reason: newSupplier.social_reason,
-          address: newSupplier.address,
-          telephone: newSupplier.telephone,
-          contact: newSupplier.contact
-        })
+      await axios.post("/supplier", {
+        name: newSupplier.name,
+        cnpj: newSupplier.cnpj,
+        social_reason: newSupplier.social_reason,
+        address: newSupplier.address,
+        telephone: newSupplier.telephone,
+        contact: newSupplier.contact
       });
       setNewSupplier("");
       loadSuppliers();
@@ -64,12 +57,8 @@ function Supplier(props) {
                 value={newSupplier.name || ""}
                 onChange={e =>
                   setNewSupplier({
-                    name: e.target.value,
-                    cnpj: newSupplier.cnpj,
-                    social_reason: newSupplier.social_reason,
-                    address: newSupplier.address,
-                    telephone: newSupplier.telephone,
-                    contact: newSupplier.contact
+                    ...newSupplier,
+                    name: e.target.value
                   })
                 }
               />
@@ -80,12 +69,8 @@ function Supplier(props) {
                 value={newSupplier.social_reason || ""}
                 onChange={e =>
                   setNewSupplier({
-                    name: newSupplier.name,
-                    cnpj: newSupplier.cnpj,
-                    social_reason: e.target.value,
-                    address: newSupplier.address,
-                    telephone: newSupplier.telephone,
-                    contact: newSupplier.contact
+                    ...newSupplier,
+                    social_reason: e.target.value
                   })
                 }
               />
@@ -96,12 +81,8 @@ function Supplier(props) {
                 value={newSupplier.cnpj || ""}
                 onChange={e =>
                   setNewSupplier({
-                    name: newSupplier.name,
-                    cnpj: e.target.value,
-                    social_reason: newSupplier.social_reason,
-                    address: newSupplier.address,
-                    telephone: newSupplier.telephone,
-                    contact: newSupplier.contact
+                    ...newSupplier,
+                    cnpj: e.target.value
                   })
                 }
               />
@@ -112,30 +93,22 @@ function Supplier(props) {
                 value={newSupplier.telephone || ""}
                 onChange={e =>
                   setNewSupplier({
-                    name: newSupplier.name,
-                    cnpj: newSupplier.cnpj,
-                    social_reason: newSupplier.social_reason,
-                    address: newSupplier.address,
-                    telephone: e.target.value,
-                    contact: newSupplier.contact
+                    ...newSupplier,
+                    telephone: e.target.value
                   })
                 }
               />
             </Col>
           </Row>
           <Row>
-          <Col md={{ span: 4 }}>
+            <Col md={{ span: 4 }}>
               <Form.Control
                 placeholder="Adress"
                 value={newSupplier.address || ""}
                 onChange={e =>
                   setNewSupplier({
-                    name: newSupplier.name,
-                    cnpj: newSupplier.cnpj,
-                    social_reason: newSupplier.social_reason,
-                    address: e.target.value,
-                    telephone: newSupplier.telephone,
-                    contact: newSupplier.contact
+                    ...newSupplier,
+                    address: e.target.value
                   })
                 }
               />
@@ -146,11 +119,7 @@ function Supplier(props) {
                 value={newSupplier.contact || ""}
                 onChange={e =>
                   setNewSupplier({
-                    name: newSupplier.name,
-                    cnpj: newSupplier.cnpj,
-                    social_reason: newSupplier.social_reason,
-                    address: newSupplier.address,
-                    telephone: newSupplier.telephone,
+                    ...newSupplier,
                     contact: e.target.value
                   })
                 }
@@ -158,9 +127,9 @@ function Supplier(props) {
             </Col>
             <Col md={{ span: 4 }}>
               <div className="d-flex flex-row-reverse">
-              <Button variant="dark" type="submit" className="">
-                Create Supplier
-              </Button>
+                <Button variant="success" type="submit" className="">
+                  Create Supplier
+                </Button>
               </div>
             </Col>
           </Row>

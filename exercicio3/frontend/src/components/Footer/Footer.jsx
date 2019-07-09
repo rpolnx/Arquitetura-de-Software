@@ -5,7 +5,7 @@ function Footer() {
   return (
     <>
       <div className="footer">
-        <div className="margin-text">Developed by Rodrigo Pereira e Thiago Pereira</div>
+        <div className="margin-text p-2">Developed by Rodrigo Pereira e Thiago Pereira</div>
       </div>
     </>
   );

@@ -2,29 +2,22 @@ import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import "./Category.scss";
 import ListCategory from "./ListCategory";
+import axios from 'axios';
 
 function Category(props) {
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState({});
 
   const loadCategories = async () => {
-    let response = await fetch("http://localhost:5000/category");
-    const categories = await response.json();
-    setCategories(categories);
+    let response = await axios.get("/category");
+    setCategories(response.data);
   };
 
   const createCategory = async () => {
     if (newCategory.title.trim() && newCategory.description.trim()) {
-      await fetch(`http://localhost:5000/category`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          title: newCategory.title,
-          description: newCategory.description
-        })
+      await axios.post("/category", {
+        title: newCategory.title,
+        description: newCategory.description
       });
       setNewCategory("");
       loadCategories();
@@ -49,7 +42,7 @@ function Category(props) {
                 value={newCategory.title || ""}
                 onChange={e =>
                   setNewCategory({
-                    ...categories,
+                    ...newCategory,
                     title: e.target.value
                   })
                 }
@@ -61,14 +54,14 @@ function Category(props) {
                 value={newCategory.description || ""}
                 onChange={e =>
                   setNewCategory({
-                    title: newCategory.title,
+                    ...newCategory,
                     description: e.target.value
                   })
                 }
               />
             </Col>
             <Col md={{ span: 2 }}>
-              <Button variant="dark" type="submit">
+              <Button variant="success" type="submit">
                 Create Category
               </Button>
             </Col>

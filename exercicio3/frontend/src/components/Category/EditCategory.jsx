@@ -61,7 +61,7 @@ function EditCategory(props) {
             />
           </Col>
           <Col md={{ span: 2 }}>
-            <Button variant="dark" type="submit">
+            <Button variant="success" type="submit">
               Create Category
             </Button>
           </Col>

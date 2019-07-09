@@ -2,6 +2,7 @@ import React from "react";
 import { Row, Col, Form } from "react-bootstrap";
 import "./Product";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
 
 class ListProduct extends React.Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class ListProduct extends React.Component {
   }
 
   async updateProducts(product) {
-    if (window.confirm(`Are you sure you want to update: "${product.title}"`)) {
+    if (window.confirm(`Are you sure you want to update: "${product.name}"`)) {
       await fetch(`http://localhost:5000/product/${product.id}`, {
         method: "PUT",
         headers: {
@@ -28,10 +29,8 @@ class ListProduct extends React.Component {
   }
 
   async deleteSupplier(product) {
-    if (window.confirm(`Are you sure you want to delete: "${product.title}"`)) {
-      await fetch(`http://localhost:5000/product/${product.id}`, {
-        method: "DELETE"
-      });
+    if (window.confirm(`Are you sure you want to delete: "${product.name}"`)) {
+      await axios.delete(`/product/${product.id}`);
       this.props.loadProducts();
     }
   }

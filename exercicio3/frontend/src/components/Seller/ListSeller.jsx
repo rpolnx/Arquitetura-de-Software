@@ -2,6 +2,7 @@ import React from "react";
 import { Row, Col, Form } from "react-bootstrap";
 import "./Seller.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from 'axios';
 
 class ListSeller extends React.Component {
   constructor(props) {
@@ -29,9 +30,7 @@ class ListSeller extends React.Component {
 
   async deleteSeller(seller) {
     if (window.confirm(`Are you sure you want to delete: "${seller.title}"`)) {
-      await fetch(`http://localhost:5000/seller/${seller.id}`, {
-        method: "DELETE"
-      });
+      await axios.delete(`/seller/${seller.id}`);
       this.props.loadSellers();
     }
   }
@@ -61,7 +60,7 @@ class ListSeller extends React.Component {
         </Row>
         {this.props.sellers.map((seller, index) => {
           return (
-            <Row>
+            <Row key={seller.id}>
               <Col md={{ span: 1 }} className="tasks_list">
                 <p className="Id">{seller.id}</p>
               </Col>
