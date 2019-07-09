@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Software Architecture</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <h1 class="display-2 text-center">Exercise 3: Stock control</h1>
+        <a href="https://github.com/rodrigorpo/Arquitetura-de-Software/tree/master/exercicio3">Github Link</a>
+        <h1 class="display-4"></h1>
+        <p class="lead">
+            <h1 id="paths-e-endpoints">Paths and endpoints</h1>
+            <h2 id="get">GET</h2>
+            <ul>
+                <li>/ (index)</li>
+                <li>/client (Returns a list of all registered clients)</li>
+                <li>/client/{id} (Returns a client with the specified Id)</li>
+                <li>/product Returns a list of all registered products)</li>
+                <li>/product/{id} (Returns a product with the specified Id)</li>
+                <li>/sale (Returns a list of all registered sales)</li>
+                <li>/sale/{id} (Returns a sale with the specified Id)</li>
+            </ul>
+            <h2 id="post">POST</h2>
+            <ul>
+                <li>/client (Creates a new client register with the information in the body)</li>
+                <li>/product (Creates a new product register with the information in the body)</li>
+                <li>/sale (Creates a new sale register with the information in the body)</li>
+            </ul>
+            <h2 id="put">PUT</h2>
+            <ul>
+                <li>/client/{id} (Updates the specified client with the information in the body)</li>
+                <li>/product/{id} (Updates the specified product with the information in the body)</li>
+                <li>/sale/{id} (Updates the specified sale with the information in the body)</li>
+            </ul>
+            <h2 id="delete">DELETE</h2>
+            <ul>
+                <li>/client/{id} (Deletes a client with the specified Id)</li>
+                <li>/product/{id} (Deletes a product with the specified Id)</li>
+                <li>/sale/{id} (Deletes a sale with the specified Id)</li>
+            </ul>
+        </p>
+    </div>
+</body>
+
+</html>
