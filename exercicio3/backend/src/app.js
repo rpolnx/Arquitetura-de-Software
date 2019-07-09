@@ -8,8 +8,6 @@ const cors = require('cors');
 // Connection on Postgres
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(express.static('public'));
-require("dotenv-safe").load();
 app.use(logger('dev'));
 app.use(helmet());
 app.use(cors());
@@ -24,6 +22,4 @@ app.use("/sale", require('./routes/SaleController'));
 app.use("/seller", require('./routes/SellerController'));
 app.use("/user", require('./routes/UserController'));
 
-app.listen(process.env.PORT, function () {
-    console.log("Application started!");
-});
+module.exports = app;

@@ -4,8 +4,8 @@
   "description": "Discipline: Software Architeture",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "author": "Rodrigo Pereira e Thiago Pereira",
   "license": "MIT",
@@ -13,10 +13,13 @@
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "dotenv-safe": "^6.1.0",
+    "ejs": "^2.6.2",
     "express": "^4.16.4",
     "helmet": "^3.18.0",
+    "html": "^1.0.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.9.1",
+    "path": "^0.12.7",
     "pg": "^7.9.0",
     "pg-hstore": "^2.3.2",
     "sequelize": "^5.2.12"
